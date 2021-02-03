@@ -93,6 +93,8 @@ struct gadget_info {
 	bool unbinding;
 	char b_vendor_code;
 	char qw_sign[OS_STRING_QW_SIGN_LEN];
+	spinlock_t spinlock;
+	bool unbind;
 #ifdef CONFIG_USB_CONFIGFS_UEVENT
 	bool connected;
 	bool sw_connected;
@@ -1618,7 +1620,7 @@ static const struct usb_gadget_driver configfs_driver_template = {
 	.disconnect     = composite_disconnect,
 #endif
 	.suspend	= composite_suspend,
-	.resume		= composite_resume,
+	.resume	= composite_resume,
 
 	.max_speed	= USB_SPEED_SUPER_PLUS,
 	.driver = {
